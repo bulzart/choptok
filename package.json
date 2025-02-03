@@ -10,9 +10,10 @@
   },
   "dependencies": {
     "@vueuse/core": "^10.7.2",
+    "axios": "^1.7.9",
     "lucide-vue-next": "^0.344.0",
-    "pusher-js": "^8.4.0",
-    "vue": "^3.4.38"
+    "vue": "^3.4.38",
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.1.3",
