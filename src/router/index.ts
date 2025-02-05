@@ -1,41 +1,74 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-import SubscriptionPage from '../components/SubscriptionPage.vue'
+import { useAuthStore } from '../stores/auth'
+import Dashboard from '../views/Dashboard.vue'
+import MyVideos from '../views/MyVideos.vue'
+import Analytics from '../views/Analytics.vue'
+import Settings from '../views/Settings.vue'
+import Help from '../views/Help.vue'
+import Login from '../views/auth/Login.vue'
+import Register from '../views/auth/Register.vue'
+import SubscriptionPage from '../views/SubscriptionPage.vue'
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      name: 'Dashboard',
+      component: Dashboard,
+      meta: { requiresAuth: true }
     },
     {
-      path: '/upgrade',
-      name: 'upgrade',
-      component: SubscriptionPage
+      path: '/videos',
+      name: 'MyVideos',
+      component: MyVideos,
+      meta: { requiresAuth: true }
     },
     {
-      path: '/history',
-      name: 'history',
-      component: () => import('../views/History.vue')
-    },
-    {
-      path: '/favorites',
-      name: 'favorites',
-      component: () => import('../views/Favorites.vue')
+      path: '/subscriptions',
+      name: 'Subscriptions',
+      component: SubscriptionPage,
+      meta: { requiresAuth: true }
     },
     {
       path: '/settings',
-      name: 'settings',
-      component: () => import('../views/Settings.vue')
+      name: 'Settings',
+      component: Settings,
+      meta: { requiresAuth: true }
     },
     {
       path: '/help',
-      name: 'help',
-      component: () => import('../views/Help.vue')
+      name: 'Help',
+      component: Help,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/auth/login',
+      name: 'Login',
+      component: Login,
+      meta: { requiresAuth: false }
+    },
+    {
+      path: '/auth/register',
+      name: 'Register',
+      component: Register,
+      meta: { requiresAuth: false }
     }
   ]
+})
+
+// Navigation guard
+router.beforeEach((to, from, next) => {
+  const auth = useAuthStore()
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+
+  if (requiresAuth && !auth.isAuthenticated) {
+    next('/auth/login')
+  } else if (!requiresAuth && auth.isAuthenticated) {
+    next('/')
+  } else {
+    next()
+  }
 })
 
 export default router

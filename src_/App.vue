@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import ThemeToggle from './components/ThemeToggle.vue'
-import { ref } from 'vue'
-import { Menu, Home, Video, TrendingUp, Settings, HelpCircle, LogOut,CreditCard } from 'lucide-vue-next'
-import { useRouter, useRoute } from 'vue-router'
-import { useAuthStore } from './stores/auth'
+import UploadBox from './components/UploadBox.vue'
+import { ref, onMounted } from 'vue'
+import { Menu, Home, Video, TrendingUp, Settings, HelpCircle } from 'lucide-vue-next'
 
-const router = useRouter()
-const route = useRoute()
-const auth = useAuthStore()
+const viralStats = [
+  { label: 'Views', value: '1.2M', trend: '+45%' },
+  { label: 'Likes', value: '856K', trend: '+62%' },
+  { label: 'Shares', value: '234K', trend: '+38%' }
+]
 
 const purpleBoxPosition = ref({ x: 0, y: 0 })
 const isSidebarCollapsed = ref(false)
@@ -20,21 +21,24 @@ const updatePurpleBoxPosition = () => {
 }
 
 const navItems = [
-  { icon: Home, label: 'Dashboard', path: '/' },
-  { icon: Video, label: 'My Videos', path: '/videos' },
-  { icon: CreditCard, label: 'Subscription', path: '/subscriptions' },
-  { icon: Settings, label: 'Settings', path: '/settings' },
-  { icon: HelpCircle, label: 'Help', path: '/help' },
+  { icon: Home, label: 'Dashboard', active: true },
+  { icon: Video, label: 'My Videos', active: false },
+  { icon: TrendingUp, label: 'Analytics', active: false },
+  { icon: Settings, label: 'Settings', active: false },
+  { icon: HelpCircle, label: 'Help', active: false },
 ]
 
-setInterval(updatePurpleBoxPosition, 3000)
+onMounted(() => {
+  updatePurpleBoxPosition()
+  setInterval(updatePurpleBoxPosition, 3000)
+})
 </script>
 
 <template>
   <div class="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-200 flex">
-    <!-- Only show sidebar if user is authenticated -->
+    <ThemeToggle />
+    <!-- Sidebar -->
     <aside 
-      v-if="auth.isAuthenticated"
       class="fixed left-0 top-0 h-full bg-gray-50 dark:bg-gray-800 transition-all duration-300 z-50 border-r border-gray-200 dark:border-gray-700"
       :class="isSidebarCollapsed ? 'w-20' : 'w-64'"
     >
@@ -58,24 +62,14 @@ setInterval(updatePurpleBoxPosition, 3000)
       <nav class="p-4">
         <ul class="space-y-2">
           <li v-for="item in navItems" :key="item.label">
-            <router-link 
-              :to="item.path"
+            <a 
+              href="#" 
               class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors"
-              :class="route.path === item.path ? 'bg-primary/10 text-primary' : 'hover:bg-gray-200 dark:hover:bg-gray-700'"
+              :class="item.active ? 'bg-primary/10 text-primary' : 'hover:bg-gray-200 dark:hover:bg-gray-700'"
             >
               <component :is="item.icon" class="w-5 h-5" />
               <span :class="isSidebarCollapsed ? 'hidden' : 'block'">{{ item.label }}</span>
-            </router-link>
-          </li>
-          <!-- Logout Button -->
-          <li>
-            <button 
-              @click="auth.signOut"
-              class="w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-gray-200 dark:hover:bg-gray-700 text-red-500"
-            >
-              <LogOut class="w-5 h-5" />
-              <span :class="isSidebarCollapsed ? 'hidden' : 'block'">Logout</span>
-            </button>
+            </a>
           </li>
         </ul>
       </nav>
@@ -84,7 +78,7 @@ setInterval(updatePurpleBoxPosition, 3000)
     <!-- Main Content -->
     <main 
       class="flex-1 transition-all duration-300 overflow-hidden"
-      :class="auth.isAuthenticated ? (isSidebarCollapsed ? 'ml-20' : 'ml-64') : ''"
+      :class="isSidebarCollapsed ? 'ml-20' : 'ml-64'"
     >
       <!-- Background Elements -->
       <div class="absolute inset-0 overflow-hidden pointer-events-none">
@@ -115,8 +109,42 @@ setInterval(updatePurpleBoxPosition, 3000)
       </div>
 
       <div class="relative">
-        <ThemeToggle />
-        <router-view></router-view>
+       
+        
+        <!-- Dashboard Content -->
+        <div class="p-8">
+          <!-- Stats Grid -->
+        
+
+          <!-- Upload Section -->
+          <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-8 shadow-lg mb-8">
+            <UploadBox />
+          </div>
+
+          <!-- Features Grid -->
+          <div class="grid md:grid-cols-3 gap-6">
+            <div class="p-6 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-lg">
+              <h3 class="text-xl font-semibold mb-3">AI-Powered Editing ✂️</h3>
+              <p class="text-gray-600 dark:text-gray-400">
+                Automatically detect key moments and create engaging short clips
+              </p>
+            </div>
+            
+            <div class="p-6 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-lg">
+              <h3 class="text-xl font-semibold mb-3">Smart Captions 🗒️</h3>
+              <p class="text-gray-600 dark:text-gray-400">
+                Auto-generated captions with engaging animations
+              </p>
+            </div>
+            
+            <div class="p-6 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-lg">
+              <h3 class="text-xl font-semibold mb-3">One-Click Share 🔗</h3>
+              <p class="text-gray-600 dark:text-gray-400">
+                Instantly share to TikTok, Instagram Reels, and YouTube Shorts
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
   </div>

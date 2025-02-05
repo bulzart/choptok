@@ -10,7 +10,8 @@ func SetupRoutes(router *gin.Engine) {
 	router.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "API is running"})
 	})
-
+    router.POST("/register", handlers.Register)
+    router.POST("/login", handlers.Login)
 	router.POST("/upload", handlers.UploadVideo)
 	router.GET("/access/:encrypted", handlers.AccessVideo)
 }

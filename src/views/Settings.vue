@@ -1,6 +1,8 @@
 <template>
-  <div class="container mx-auto px-4 py-16">
-    <h1 class="text-3xl font-bold mb-8">Settings</h1>
-    <p class="text-gray-600 dark:text-gray-400">Account settings and preferences will appear here.</p>
+  <div class="p-8">
+    <h1 class="text-2xl font-bold mb-6">Settings</h1>
+    <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+      <p class="text-gray-600 dark:text-gray-400">Settings page coming soon...</p>
+    </div>
   </div>
 </template>
