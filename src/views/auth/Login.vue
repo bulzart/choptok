@@ -90,7 +90,7 @@ async function handleSubmit() {
                 class="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 text-white placeholder-gray-400"
                 placeholder="Email address"
               />
-              <div class="absolute inset-0 border border-primary/0 rounded-lg group-hover:border-primary/20 transition-all duration-300"></div>
+              <div class="inset-0 border border-primary/0 rounded-lg group-hover:border-primary/20 transition-all duration-300"></div>
             </div>
           </div>
 
@@ -104,7 +104,7 @@ async function handleSubmit() {
                 class="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 text-white placeholder-gray-400"
                 placeholder="Password"
               />
-              <div class="absolute inset-0 border border-primary/0 rounded-lg group-hover:border-primary/20 transition-all duration-300"></div>
+              <div class="inset-0 border border-primary/0 rounded-lg group-hover:border-primary/20 transition-all duration-300"></div>
             </div>
           </div>
 
@@ -114,7 +114,7 @@ async function handleSubmit() {
             :disabled="auth.loading"
             class="relative w-full group overflow-hidden"
           >
-            <div class="absolute -inset-0.5 bg-gradient-to-r from-primary to-secondary rounded-lg blur opacity-60 group-hover:opacity-100 transition duration-300 animate-pulse"></div>
+            <div class="-inset-0.5 bg-gradient-to-r from-primary to-secondary rounded-lg blur opacity-60 group-hover:opacity-100 transition duration-300 animate-pulse"></div>
             <div class="relative px-6 py-3 bg-gray-900 rounded-lg leading-none flex items-center justify-center">
               <span class="text-white font-medium transition duration-300">
                 {{ auth.loading ? 'Signing in...' : 'Sign in' }}

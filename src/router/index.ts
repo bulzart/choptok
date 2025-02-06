@@ -58,17 +58,5 @@ const router = createRouter({
 })
 
 // Navigation guard
-router.beforeEach((to, from, next) => {
-  const auth = useAuthStore()
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-
-  if (requiresAuth && !auth.isAuthenticated) {
-    next('/auth/login')
-  } else if (!requiresAuth && auth.isAuthenticated) {
-    next('/')
-  } else {
-    next()
-  }
-})
 
 export default router
